@@ -46,6 +46,11 @@ public class MainOptionsActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu (Menu menu) {
+        return false;
+    }
+
     public void forFood(View view){
         //Toast.makeText(this, postalCode, Toast.LENGTH_SHORT).show();
         Object obj = new MyTask().execute(postalCode);
