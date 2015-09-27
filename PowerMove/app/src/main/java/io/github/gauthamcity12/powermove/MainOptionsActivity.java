@@ -1,13 +1,17 @@
 package io.github.gauthamcity12.powermove;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.beust.jcommander.JCommander;
+
+import javax.xml.transform.Result;
 
 
 public class MainOptionsActivity extends Activity {
@@ -48,15 +52,35 @@ public class MainOptionsActivity extends Activity {
     }
 
     public void forFood(View view){
-        YelpAPI.YelpAPICLI yelpApiCli = new YelpAPI.YelpAPICLI();
+        Object obj = new MyTask().execute();
+        Toast.makeText(this, "finished", Toast.LENGTH_SHORT);
+    }
 
-        //new JCommander(yelpApiCli, new String[1]);
-        yelpApiCli.term = "restaurant";
-        yelpApiCli.location = "Atlanta, GA";
+    private class MyTask extends AsyncTask {
 
-        YelpAPI yelpApi = new YelpAPI(CONSUMER_KEY, CONSUMER_SECRET, TOKEN, TOKEN_SECRET);
+        private static final String CONSUMER_KEY = "5si1y_o6NPOuDxsbM_6Dmg";
+        private static final String CONSUMER_SECRET = "pmWjujMIW_ibx-1x6Q_vsF_CaS0";
+        private static final String TOKEN = "4Yn1h3QzMA-hah6Ps19MAkN8iLRwQww_";
+        private static final String TOKEN_SECRET = "p-I-JEJbu5yxoIfkbjnK1J57Tyc";
+        private YelpAPI.YelpAPICLI yelpApiCli;
+        private YelpAPI yelpApi;
+        //public AsyncResponse delegate=null;
 
-        String result = YelpAPI.queryAPI(yelpApi, yelpApiCli);
-        foodButton.setText(result);
+        @Override
+        protected String doInBackground(Object[] params) {
+            yelpApiCli = new YelpAPI.YelpAPICLI();
+            yelpApiCli.term = "restaurant";
+            yelpApiCli.location = "Atlanta, GA";
+            yelpApi = new YelpAPI(CONSUMER_KEY, CONSUMER_SECRET, TOKEN, TOKEN_SECRET);
+            String result = YelpAPI.queryAPI(yelpApi, yelpApiCli);
+            return result;
+        }
+
+        protected void onPostExecute(String result){
+            Button foodButton = (Button) findViewById(R.id.foodButton);
+            foodButton.setText(result);
+            //delegate.processFinish(result);
+        }
+
     }
 }

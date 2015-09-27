@@ -27,7 +27,7 @@ import io.github.gauthamcity12.powermove.TwoStepOAuth;
  * See <a href="http://www.yelp.com/developers/documentation">Yelp Documentation</a> for more info.
  *
  */
-public class YelpAPI {
+public class YelpAPI{
 
     private static final String API_HOST = "api.yelp.com";
     private static final String DEFAULT_TERM = "restaurant";
