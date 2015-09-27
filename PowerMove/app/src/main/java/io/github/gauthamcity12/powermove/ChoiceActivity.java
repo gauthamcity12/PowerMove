@@ -54,6 +54,8 @@ public class ChoiceActivity extends Activity {
         ratingView.setText("Rating: "+rating);
         snippetView.setText(snippet);
 
+        new ImageTask().execute();
+
     }
 
     @Override
@@ -130,7 +132,7 @@ public class ChoiceActivity extends Activity {
 
     }
 
-    private class imageTask extends AsyncTask<Void, Void, Bitmap> {
+    private class ImageTask extends AsyncTask<Void, Void, Bitmap> {
         @Override
         protected Bitmap doInBackground(Void... params) {
             URL url2 = null;
