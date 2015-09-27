@@ -32,7 +32,7 @@ public class YelpAPI{
     private static final String API_HOST = "api.yelp.com";
     private static final String DEFAULT_TERM = "restaurant";
     private static final String DEFAULT_LOCATION = "Atlanta, GA";
-    private static final int SEARCH_LIMIT = 3;
+    private static final int SEARCH_LIMIT = 7;
     private static final String SEARCH_PATH = "/v2/search";
     private static final String BUSINESS_PATH = "/v2/business";
 
@@ -126,7 +126,7 @@ public class YelpAPI{
      * @param yelpApi <tt>YelpAPI</tt> service instance
      * @param yelpApiCli <tt>YelpAPICLI</tt> command line arguments
      */
-    public static String queryAPI(YelpAPI yelpApi, YelpAPICLI yelpApiCli) {
+    public static String[] queryAPI(YelpAPI yelpApi, YelpAPICLI yelpApiCli) {
         String searchResponseJSON =
                 yelpApi.searchForBusinessesByLocation(yelpApiCli.term, yelpApiCli.location);
 
@@ -141,7 +141,14 @@ public class YelpAPI{
         }
 
         JSONArray businesses = (JSONArray) response.get("businesses");
-        JSONObject firstBusiness = (JSONObject) businesses.get(0);
+        JSONObject firstBusiness = (JSONObject)businesses.get(0);
+        for(int i =0; i < businesses.size(); i++){
+            JSONObject obj = (JSONObject)businesses.get(i);
+            if(!((boolean)obj.get("is_closed"))){
+                firstBusiness = obj;
+                break;
+            }
+        }
         String firstBusinessID = firstBusiness.get("id").toString();
         System.out.println(String.format(
                 "%s businesses found, querying business info for the top result \"%s\" ...",
@@ -151,7 +158,15 @@ public class YelpAPI{
         String businessResponseJSON = yelpApi.searchByBusinessId(firstBusinessID.toString());
         System.out.println(String.format("Result for business \"%s\" found:", firstBusinessID));
         System.out.println(businessResponseJSON);
-        return firstBusinessID;
+
+        String[] arr = new String[10];
+        arr[0] = firstBusiness.get("name").toString(); // Restaurant Name
+        arr[1] = firstBusiness.get("image_url").toString(); // URL to image
+        arr[2] = firstBusiness.get("display_phone").toString(); // Phone Number
+        arr[3] = firstBusiness.get("rating").toString(); // Rating
+        //arr[4] = firstBusiness.get("location: display_address").toString();
+        //arr[5] = firstBusiness.get("categories").toString();
+        return arr;
     }
 
     /**

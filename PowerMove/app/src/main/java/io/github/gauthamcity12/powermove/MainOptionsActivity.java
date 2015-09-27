@@ -55,7 +55,7 @@ public class MainOptionsActivity extends Activity {
 
     }
 
-    private class MyTask extends AsyncTask<String, Void, String> {
+    private class MyTask extends AsyncTask<String, Void, String[]> {
 
         private static final String CONSUMER_KEY = "5si1y_o6NPOuDxsbM_6Dmg";
         private static final String CONSUMER_SECRET = "pmWjujMIW_ibx-1x6Q_vsF_CaS0";
@@ -65,18 +65,17 @@ public class MainOptionsActivity extends Activity {
         private YelpAPI yelpApi;
 
         @Override
-        protected String doInBackground(String[] params) {
+        protected String[] doInBackground(String[] params) {
             yelpApiCli = new YelpAPI.YelpAPICLI();
             yelpApiCli.term = "restaurant";
             yelpApiCli.location = params[0];
             yelpApi = new YelpAPI(CONSUMER_KEY, CONSUMER_SECRET, TOKEN, TOKEN_SECRET);
-            String result = YelpAPI.queryAPI(yelpApi, yelpApiCli);
+            String[] result = YelpAPI.queryAPI(yelpApi, yelpApiCli);
             return result;
         }
 
-        protected void onPostExecute(String result){
-            Button foodButton = (Button) findViewById(R.id.foodButton);
-            foodButton.setText(result);
+        protected void onPostExecute(String[] result){
+
         }
 
     }

@@ -25,12 +25,16 @@
         </activity>
 
         <service
-            android:name="io.github.gauthamcity12.powermove.GetLocation"
+            android:name=".GetLocation"
             android:enabled="true" />
 
         <activity
             android:name=".MainOptionsActivity"
             android:label="@string/title_activity_main_options" >
+        </activity>
+        <activity
+            android:name=".ChoiceActivity"
+            android:label="@string/title_activity_choice" >
         </activity>
     </application>
 
