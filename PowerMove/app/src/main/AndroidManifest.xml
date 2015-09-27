@@ -23,6 +23,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name="io.github.gauthamcity12.powermove.GetLocation"
+            android:enabled="true" />
+
         <activity
             android:name=".MainOptionsActivity"
             android:label="@string/title_activity_main_options" >

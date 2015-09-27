@@ -1,6 +1,7 @@
 package io.github.gauthamcity12.powermove;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,17 +17,14 @@ import javax.xml.transform.Result;
 
 public class MainOptionsActivity extends Activity {
 
-    private static final String CONSUMER_KEY = "5si1y_o6NPOuDxsbM_6Dmg";
-    private static final String CONSUMER_SECRET = "pmWjujMIW_ibx-1x6Q_vsF_CaS0";
-    private static final String TOKEN = "4Yn1h3QzMA-hah6Ps19MAkN8iLRwQww_";
-    private static final String TOKEN_SECRET = "p-I-JEJbu5yxoIfkbjnK1J57Tyc";
-    private Button foodButton;
+    private String postalCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_options);
-        foodButton = (Button) findViewById(R.id.foodButton);
+        Intent intent = getIntent();
+        postalCode = intent.getStringExtra("postalCode");
     }
 
     @Override
@@ -52,11 +50,12 @@ public class MainOptionsActivity extends Activity {
     }
 
     public void forFood(View view){
-        Object obj = new MyTask().execute();
-        Toast.makeText(this, "finished", Toast.LENGTH_SHORT);
+        Toast.makeText(this, postalCode, Toast.LENGTH_SHORT).show();
+        Object obj = new MyTask().execute(postalCode);
+
     }
 
-    private class MyTask extends AsyncTask {
+    private class MyTask extends AsyncTask<String, Void, String> {
 
         private static final String CONSUMER_KEY = "5si1y_o6NPOuDxsbM_6Dmg";
         private static final String CONSUMER_SECRET = "pmWjujMIW_ibx-1x6Q_vsF_CaS0";
@@ -64,13 +63,12 @@ public class MainOptionsActivity extends Activity {
         private static final String TOKEN_SECRET = "p-I-JEJbu5yxoIfkbjnK1J57Tyc";
         private YelpAPI.YelpAPICLI yelpApiCli;
         private YelpAPI yelpApi;
-        //public AsyncResponse delegate=null;
 
         @Override
-        protected String doInBackground(Object[] params) {
+        protected String doInBackground(String[] params) {
             yelpApiCli = new YelpAPI.YelpAPICLI();
             yelpApiCli.term = "restaurant";
-            yelpApiCli.location = "Atlanta, GA";
+            yelpApiCli.location = params[0];
             yelpApi = new YelpAPI(CONSUMER_KEY, CONSUMER_SECRET, TOKEN, TOKEN_SECRET);
             String result = YelpAPI.queryAPI(yelpApi, yelpApiCli);
             return result;
@@ -79,7 +77,6 @@ public class MainOptionsActivity extends Activity {
         protected void onPostExecute(String result){
             Button foodButton = (Button) findViewById(R.id.foodButton);
             foodButton.setText(result);
-            //delegate.processFinish(result);
         }
 
     }

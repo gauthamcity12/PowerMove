@@ -14,9 +14,6 @@ import android.widget.TextView;
 
 
 public class MainActivity extends Activity {
-
-    private EditText editTextInput;
-    private Location mLastLocation;
     private Button mainButton;
 
     @Override
@@ -51,7 +48,7 @@ public class MainActivity extends Activity {
     }
 
     public void onClick(View view){
-        Intent intent = new Intent(this, MainOptionsActivity.class);
-        startActivity(intent);
+        Intent intent = new Intent(this, GetLocation.class);
+        startService(intent);
     }
 }
