@@ -226,6 +226,7 @@ public class YelpAPI{
         arr[1] = firstBusiness.get("image_url").toString(); // URL to image
         arr[2] = firstBusiness.get("display_phone").toString(); // Phone Number
         arr[3] = firstBusiness.get("rating").toString(); // Rating
+        arr[4] = firstBusiness.get("snippet_text").toString();
         //arr[4] = firstBusiness.get("location: display_address").toString();
         //arr[5] = firstBusiness.get("categories").toString();
         return arr;

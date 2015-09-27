@@ -82,8 +82,6 @@ public class MainOptionsActivity extends Activity {
 
         protected void onPostExecute(String[] result){
             MainOptionsActivity.this.nextActivity(result);
-            Button foodButton = (Button) findViewById(R.id.foodButton);
-            foodButton.setText(result[0]);
         }
 
     }

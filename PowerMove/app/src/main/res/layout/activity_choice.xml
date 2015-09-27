@@ -26,9 +26,20 @@
         android:layout_alignParentEnd="true" />
     <TextView
         android:id="@+id/rating"
+        android:text="Snippet"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="5dp"
+        android:textSize="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/snippet"
         android:text="Rating"
         android:textColor="#FFFFFF"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="5dp"
         android:textSize="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,22 +47,41 @@
         android:layout_alignParentEnd="true" />
 
     <Button
-        android:id="@+id/cuisine"
-        android:text="Change Cuisine!"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <Button
         android:id="@+id/random"
         android:text="Randomize!"
+        android:textColor="#FFFFFF"
+        android:background="@color/primary"
         android:onClick="randomize"
         android:layout_width="wrap_content"
+        android:layout_marginTop="30dp"
+        android:padding="8dp"
         android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/PM"
-        android:text="POWER MOVE!"
-        android:onClick="powerMove"
+    <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:layout_gravity="right" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/PM"
+            android:text="POWER MOVE!"
+            android:textColor="#FFFFFF"
+            android:background="@color/primary"
+            android:onClick="powerMove"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
+            android:padding="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
 
 </LinearLayout>

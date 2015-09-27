@@ -25,9 +25,11 @@ public class ChoiceActivity extends Activity {
     private TextView nameView;
     private TextView phoneView;
     private TextView ratingView;
+    private TextView snippetView;
     private ImageView imgView;
     private String postalCode;
     private String name;
+    private String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,32 +37,23 @@ public class ChoiceActivity extends Activity {
         setContentView(R.layout.activity_choice);
         Intent intent = getIntent();
         name = intent.getStringExtra("name");
-        String url = intent.getStringExtra("image");
+        url = intent.getStringExtra("image");
         String phone = intent.getStringExtra("phone");
         String rating = intent.getStringExtra("rating");
+        String snippet = intent.getStringExtra("snippet");
         postalCode = intent.getStringExtra("postalCode");
 
 
         nameView = (TextView) findViewById(R.id.name);
         phoneView = (TextView) findViewById(R.id.phone);
         ratingView = (TextView) findViewById(R.id.rating);
+        snippetView = (TextView) findViewById(R.id.snippet);
 
         nameView.setText(name);
         phoneView.setText(phone);
-        ratingView.setText(rating);
+        ratingView.setText("Rating: "+rating);
+        snippetView.setText(snippet);
 
-//        URL url2 = null;
-//        Bitmap bmp = null;
-//        try {
-//            url2 = new URL(url);
-//            bmp = BitmapFactory.decodeStream(url2.openConnection().getInputStream());
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-        //imgView = (ImageView) findViewById(R.id.image);
-        //imgView.setImageBitmap(bmp);
     }
 
     @Override
@@ -95,6 +88,7 @@ public class ChoiceActivity extends Activity {
         intent.putExtra("image", arr[1]);
         intent.putExtra("phone", arr[2]);
         intent.putExtra("rating", arr[3]);
+        intent.putExtra("snippet", arr[4]);
         intent.putExtra("postalCode", postalCode);
         startActivity(intent);
     }
@@ -129,6 +123,28 @@ public class ChoiceActivity extends Activity {
             ChoiceActivity.this.nextActivity(result);
         }
 
+    }
+
+    private class imageTask extends AsyncTask<Void, Void, Bitmap> {
+        @Override
+        protected Bitmap doInBackground(Void... params) {
+            URL url2 = null;
+            Bitmap bmp = null;
+            try {
+                url2 = new URL(url);
+                bmp = BitmapFactory.decodeStream(url2.openConnection().getInputStream());
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return bmp;
+        }
+
+        protected void onPostExecute(Bitmap bmp){
+            imgView = (ImageView) findViewById(R.id.imageView);
+            imgView.setImageBitmap(bmp);
+        }
     }
 }
 

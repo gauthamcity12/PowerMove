@@ -20,7 +20,19 @@
         android:textSize="30dp"
         android:background="#3D5AFE"
         android:onClick="onClick"
-        android:layout_centerVertical="true"
+        android:layout_marginTop="50dp"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Power Move is a mobile application design for individuals who are willing to try new restaurants and be a little more spontaneous with their food choices! Click the button above to discover the world of food!"
+        android:id="@+id/textView"
+        android:textAlignment="center"
+        android:layout_marginTop="39dp"
+        android:layout_below="@+id/mainButton"
+        android:layout_alignParentStart="true"
+        android:paddingStart="5dp" />
 
 </RelativeLayout>
