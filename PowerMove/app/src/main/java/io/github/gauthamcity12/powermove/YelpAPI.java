@@ -14,6 +14,8 @@ import org.scribe.model.Token;
 import org.scribe.model.Verb;
 import org.scribe.oauth.OAuthService;
 
+import java.util.Random;
+
 import io.github.gauthamcity12.powermove.TwoStepOAuth;
 
 /**
@@ -32,7 +34,7 @@ public class YelpAPI{
     private static final String API_HOST = "api.yelp.com";
     private static final String DEFAULT_TERM = "restaurant";
     private static final String DEFAULT_LOCATION = "Atlanta, GA";
-    private static final int SEARCH_LIMIT = 7;
+    private static final int SEARCH_LIMIT = 10;
     private static final String SEARCH_PATH = "/v2/search";
     private static final String BUSINESS_PATH = "/v2/business";
 
@@ -78,6 +80,15 @@ public class YelpAPI{
         request.addQuerystringParameter("term", term);
         request.addQuerystringParameter("location", location);
         request.addQuerystringParameter("limit", String.valueOf(SEARCH_LIMIT));
+        return sendRequestAndGetResponse(request);
+    }
+
+    public String searchForBusinessesByLocationRandom(String term, String location) {
+        OAuthRequest request = createOAuthRequest(SEARCH_PATH);
+        request.addQuerystringParameter("term", term);
+        request.addQuerystringParameter("location", location);
+        request.addQuerystringParameter("limit", String.valueOf(SEARCH_LIMIT));
+        request.addQuerystringParameter("sort", String.valueOf(2));
         return sendRequestAndGetResponse(request);
     }
 
@@ -164,6 +175,57 @@ public class YelpAPI{
         arr[1] = firstBusiness.get("image_url").toString(); // URL to image
         arr[2] = firstBusiness.get("display_phone").toString(); // Phone Number
         arr[3] = firstBusiness.get("rating").toString(); // Rating
+        //arr[4] = firstBusiness.get("location").toString();
+        //arr[5] = firstBusiness.get("categories").toString();
+        return arr;
+    }
+
+    public static String[] queryAPI(YelpAPI yelpApi, YelpAPICLI yelpApiCli, int flag) {
+
+        String searchResponseJSON;
+        searchResponseJSON =
+                    yelpApi.searchForBusinessesByLocation(yelpApiCli.term, yelpApiCli.location);
+
+        JSONParser parser = new JSONParser();
+        JSONObject response = null;
+        try {
+            response = (JSONObject) parser.parse(searchResponseJSON);
+        } catch (ParseException pe) {
+            System.out.println("Error: could not parse JSON response:");
+            System.out.println(searchResponseJSON);
+            System.exit(1);
+        }
+
+        JSONArray businesses = (JSONArray) response.get("businesses");
+        JSONObject firstBusiness = (JSONObject)businesses.get(0);
+        for(int i =0; i < businesses.size(); i++){
+            JSONObject obj = (JSONObject)businesses.get(i);
+            if(!((boolean)obj.get("is_closed"))){
+                firstBusiness = obj;
+                break;
+            }
+        }
+        if(flag == 1){
+            int size = businesses.size();
+            Random rand = new Random();
+            int num = rand.nextInt(size);
+            firstBusiness = (JSONObject)businesses.get(num);
+        }
+        String firstBusinessID = firstBusiness.get("id").toString();
+        System.out.println(String.format(
+                "%s businesses found, querying business info for the top result \"%s\" ...",
+                businesses.size(), firstBusinessID));
+
+        // Select the first business and display business details
+        String businessResponseJSON = yelpApi.searchByBusinessId(firstBusinessID.toString());
+        System.out.println(String.format("Result for business \"%s\" found:", firstBusinessID));
+        System.out.println(businessResponseJSON);
+
+        String[] arr = new String[10];
+        arr[0] = firstBusiness.get("name").toString(); // Restaurant Name
+        arr[1] = firstBusiness.get("image_url").toString(); // URL to image
+        arr[2] = firstBusiness.get("display_phone").toString(); // Phone Number
+        arr[3] = firstBusiness.get("rating").toString(); // Rating
         //arr[4] = firstBusiness.get("location: display_address").toString();
         //arr[5] = firstBusiness.get("categories").toString();
         return arr;
@@ -180,18 +242,6 @@ public class YelpAPI{
         public String location = DEFAULT_LOCATION;
     }
 
-    /**
-     * Main entry for sample Yelp API requests.
-     * <p>
-     * After entering your OAuth credentials, execute <tt><b>run.sh</b></tt> to run this example.
-     */
-    public static void main(String[] args) {
-        YelpAPICLI yelpApiCli = new YelpAPICLI();
-        new JCommander(yelpApiCli, args);
-
-        YelpAPI yelpApi = new YelpAPI(CONSUMER_KEY, CONSUMER_SECRET, TOKEN, TOKEN_SECRET);
-        queryAPI(yelpApi, yelpApiCli);
-    }
 }
 
 

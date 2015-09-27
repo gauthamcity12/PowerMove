@@ -47,7 +47,7 @@ public class MainOptionsActivity extends Activity {
     }
 
     public void forFood(View view){
-        Toast.makeText(this, postalCode, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, postalCode, Toast.LENGTH_SHORT).show();
         Object obj = new MyTask().execute(postalCode);
     }
 
@@ -57,6 +57,7 @@ public class MainOptionsActivity extends Activity {
         intent.putExtra("image", arr[1]);
         intent.putExtra("phone", arr[2]);
         intent.putExtra("rating", arr[3]);
+        intent.putExtra("postalCode", postalCode);
         startActivity(intent);
     }
 

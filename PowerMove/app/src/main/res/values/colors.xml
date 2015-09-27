@@ -10,8 +10,8 @@
     <item name="darkgreen" type="color">#FF669900</item>
     <item name="darkorange" type="color">#FFFF8800</item>
     <item name="darkred" type="color">#FFCC0000</item>
-    <item name="primary" type="color">#3F51B5</item>
-    <item name="primary_dark" type="color">#1A237E</item>
+    <item name="primary" type="color">#3D5AFE</item>
+    <item name="primary_dark" type="color">#303F9F</item>
     <item name="white" type="color">#FFFFFF</item>
 
     <integer-array name="androidcolors">
