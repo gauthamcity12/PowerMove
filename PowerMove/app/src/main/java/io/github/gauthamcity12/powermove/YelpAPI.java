@@ -1,3 +1,5 @@
+package io.github.gauthamcity12.powermove;
+
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 
@@ -11,6 +13,8 @@ import org.scribe.model.Response;
 import org.scribe.model.Token;
 import org.scribe.model.Verb;
 import org.scribe.oauth.OAuthService;
+
+import io.github.gauthamcity12.powermove.TwoStepOAuth;
 
 /**
  * Code sample for accessing the Yelp API V2.
@@ -122,7 +126,7 @@ public class YelpAPI {
      * @param yelpApi <tt>YelpAPI</tt> service instance
      * @param yelpApiCli <tt>YelpAPICLI</tt> command line arguments
      */
-    private static void queryAPI(YelpAPI yelpApi, YelpAPICLI yelpApiCli) {
+    public static String queryAPI(YelpAPI yelpApi, YelpAPICLI yelpApiCli) {
         String searchResponseJSON =
                 yelpApi.searchForBusinessesByLocation(yelpApiCli.term, yelpApiCli.location);
 
@@ -147,12 +151,13 @@ public class YelpAPI {
         String businessResponseJSON = yelpApi.searchByBusinessId(firstBusinessID.toString());
         System.out.println(String.format("Result for business \"%s\" found:", firstBusinessID));
         System.out.println(businessResponseJSON);
+        return firstBusinessID;
     }
 
     /**
      * Command-line interface for the sample Yelp API runner.
      */
-    private static class YelpAPICLI {
+    public static class YelpAPICLI {
         @Parameter(names = {"-q", "--term"}, description = "Search Query Term")
         public String term = DEFAULT_TERM;
 
@@ -173,4 +178,6 @@ public class YelpAPI {
         queryAPI(yelpApi, yelpApiCli);
     }
 }
+
+
 

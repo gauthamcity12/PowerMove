@@ -1,3 +1,5 @@
+package io.github.gauthamcity12.powermove;
+
 import org.scribe.builder.api.DefaultApi10a;
 import org.scribe.model.Token;
 
