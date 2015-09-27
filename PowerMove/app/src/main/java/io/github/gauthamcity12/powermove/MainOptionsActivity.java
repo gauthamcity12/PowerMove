@@ -10,10 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.beust.jcommander.JCommander;
-
-import javax.xml.transform.Result;
-
 
 public class MainOptionsActivity extends Activity {
 
@@ -53,13 +49,15 @@ public class MainOptionsActivity extends Activity {
     public void forFood(View view){
         Toast.makeText(this, postalCode, Toast.LENGTH_SHORT).show();
         Object obj = new MyTask().execute(postalCode);
-        Intent intent = new Intent(this, ChoiceActivity.class);
-        intent.putExtra("name", values[0]);
-        intent.putExtra("image", values[1]);
-        intent.putExtra("phone", values[2]);
-        intent.putExtra("rating", values[3]);
-        startActivity(intent);
+    }
 
+    public void nextActivity(String[] arr){
+        Intent intent = new Intent(this, ChoiceActivity.class);
+        intent.putExtra("name", arr[0]);
+        intent.putExtra("image", arr[1]);
+        intent.putExtra("phone", arr[2]);
+        intent.putExtra("rating", arr[3]);
+        startActivity(intent);
     }
 
     private class MyTask extends AsyncTask<String, Void, String[]> {
@@ -82,7 +80,7 @@ public class MainOptionsActivity extends Activity {
         }
 
         protected void onPostExecute(String[] result){
-            values = result;
+            MainOptionsActivity.this.nextActivity(result);
             Button foodButton = (Button) findViewById(R.id.foodButton);
             foodButton.setText(result[0]);
         }
