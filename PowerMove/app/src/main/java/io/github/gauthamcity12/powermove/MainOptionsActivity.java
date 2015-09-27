@@ -18,6 +18,7 @@ import javax.xml.transform.Result;
 public class MainOptionsActivity extends Activity {
 
     private String postalCode;
+    public static String[] values = new String[10];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,12 @@ public class MainOptionsActivity extends Activity {
     public void forFood(View view){
         Toast.makeText(this, postalCode, Toast.LENGTH_SHORT).show();
         Object obj = new MyTask().execute(postalCode);
+        Intent intent = new Intent(this, ChoiceActivity.class);
+        intent.putExtra("name", values[0]);
+        intent.putExtra("image", values[1]);
+        intent.putExtra("phone", values[2]);
+        intent.putExtra("rating", values[3]);
+        startActivity(intent);
 
     }
 
@@ -75,7 +82,9 @@ public class MainOptionsActivity extends Activity {
         }
 
         protected void onPostExecute(String[] result){
-
+            values = result;
+            Button foodButton = (Button) findViewById(R.id.foodButton);
+            foodButton.setText(result[0]);
         }
 
     }
